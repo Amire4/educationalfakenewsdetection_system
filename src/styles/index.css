@@ -1,0 +1,44 @@
+/* Global CSS Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body defaults */
+body {
+  font-family: 'Poppins', 'Segoe UI', Roboto, sans-serif;
+  background-color: #f7f9fb;
+  color: #1f2937;
+  line-height: 1.6;
+}
+
+/* Links default */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Images responsive */
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Buttons default */
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* Containers */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Utility classes */
+.text-center {
+  text-align: center;
+}

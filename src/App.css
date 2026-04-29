@@ -36,3 +36,99 @@
     transform: rotate(360deg);
   }
 }
+
+
+
+
+
+
+/* Full page height */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+/* Flex column layout */
+.app-container {
+  min-height: 100vh;       /* Full viewport height */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main content grows to push footer down */
+.main-content {
+  flex: 1;
+}
+
+
+
+/* ========== EXTRA DARK MODE FIXES FOR VERIFY PAGE ========== */
+
+/* Result Boxes - Already have colors, but ensure text contrast */
+body.dark-mode .result-box.real {
+  background: linear-gradient(135deg, #064e3b, #065f46);
+  color: #a7f3d0;
+}
+
+body.dark-mode .result-box.fake {
+  background: linear-gradient(135deg, #7f1d1d, #991b1b);
+  color: #fecaca;
+}
+
+body.dark-mode .result-box.error {
+  background: linear-gradient(135deg, #78350f, #92400e);
+  color: #fde68a;
+}
+
+/* Confidence Bar Background */
+body.dark-mode .confidence-bar {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Attach Button */
+body.dark-mode .attach-btn {
+  color: #818cf8;
+}
+
+body.dark-mode .attach-btn:hover {
+  color: #a5b4fc;
+}
+
+/* Remove File Button */
+body.dark-mode .remove-file {
+  color: #f87171;
+}
+
+body.dark-mode .remove-file:hover {
+  color: #ef4444;
+}
+
+/* Verify Hero After Element (gradient overlay) */
+body.dark-mode .verify-hero::after {
+  background: linear-gradient(to top, #121212, transparent);
+}
+
+/* Submit Button - Ensure visibility */
+body.dark-mode .composer button {
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  color: white;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+body.dark-mode .composer button:hover {
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.6);
+}
+
+/* Scrollbar for verify page */
+body.dark-mode .verify-wrapper::-webkit-scrollbar-track {
+  background: #1a1a2e;
+}
+
+body.dark-mode .verify-wrapper::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  border-radius: 10px;
+}
+
+
+
+

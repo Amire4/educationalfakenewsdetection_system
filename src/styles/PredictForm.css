@@ -1,0 +1,31 @@
+.predict-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.predict-form textarea {
+  padding: 10px;
+  font-size: 16px;
+}
+
+.predict-form button {
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.verify-result.real {
+  color: green;
+  font-weight: bold;
+}
+
+.verify-result.fake {
+  color: red;
+  font-weight: bold;
+}
+
+.verify-result.invalid {
+  color: orange;
+  font-weight: bold;
+}

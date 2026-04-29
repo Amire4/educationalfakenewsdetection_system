@@ -1,0 +1,350 @@
+/* Navbar container */
+.navbar {
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 2rem;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Logo with animation */
+.logo {
+  color: #fff;
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  background: linear-gradient(135deg, #fff, #94a3b8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  transition: all 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #f97316, #ef4444);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Nav links */
+.nav-links {
+  display: flex;
+  gap: 0.5rem;
+  list-style: none;
+  transition: all 0.3s ease;
+}
+
+.nav-links li {
+  position: relative;
+}
+
+/* Nav links styling */
+.nav-links a {
+  color: #e2e8f0;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.6rem 1.2rem;
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+}
+
+/* Hover effect with red line */
+.nav-links a:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
+  color: #fff;
+}
+
+/* Red line on hover */
+.nav-links a:hover::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  height: 3px;
+  background: linear-gradient(90deg, #ef4444, #f97316);
+  border-radius: 3px;
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Active link - red line always visible */
+.nav-links a.active {
+  color: #fff;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.nav-links a.active::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  height: 3px;
+  background: linear-gradient(90deg, #ef4444, #f97316);
+  border-radius: 3px;
+}
+
+/* Animation for red line */
+@keyframes slideIn {
+  0% {
+    width: 0%;
+    opacity: 0;
+  }
+  100% {
+    width: 70%;
+    opacity: 1;
+  }
+}
+
+/* User Name Style */
+.nav-links li.user-name {
+  color: #10b981;
+  font-weight: 600;
+  padding: 0.6rem 1.2rem;
+  display: inline-block;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(16, 185, 129, 0.05));
+  border-radius: 12px;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  margin-left: 0.5rem;
+}
+
+/* Logout Button Style */
+.nav-links li .logout-btn {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Logout button hover effect */
+.nav-links li .logout-btn:hover {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(220, 38, 38, 0.4);
+}
+
+/* Logout button ripple effect */
+.nav-links li .logout-btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.nav-links li .logout-btn:active::after {
+  width: 300px;
+  height: 300px;
+}
+
+/* Login/Signup buttons special styling */
+.nav-links li:last-child a,
+.nav-links li:nth-last-child(2) a {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-links li:last-child a:hover,
+.nav-links li:nth-last-child(2) a:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.5);
+}
+
+/* Hamburger Menu */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  width: 30px;
+  height: 24px;
+  justify-content: space-between;
+  z-index: 100;
+}
+
+.menu-toggle span {
+  display: block;
+  height: 3px;
+  background: linear-gradient(90deg, #fff, #94a3b8);
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+/* Hamburger open animation */
+.menu-toggle.open span:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+  background: #ef4444;
+}
+
+.menu-toggle.open span:nth-child(2) {
+  opacity: 0;
+  transform: translateX(-10px);
+}
+
+.menu-toggle.open span:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+  background: #ef4444;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .navbar-container {
+    padding: 0.8rem 1.5rem;
+  }
+
+  .menu-toggle {
+    display: flex;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    backdrop-filter: blur(20px);
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 0;
+    gap: 0;
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  .nav-links.show {
+    max-height: 600px;
+    padding: 1rem 0;
+  }
+
+  .nav-links li {
+    width: 100%;
+    text-align: center;
+    margin: 0;
+  }
+
+  .nav-links a {
+    width: 90%;
+    padding: 0.9rem 0;
+    font-size: 1.1rem;
+    display: block;
+    margin: 0 auto;
+  }
+
+  /* Red line on hover for mobile */
+  .nav-links a:hover::after,
+  .nav-links a.active::after {
+    bottom: 2px;
+    width: 50%;
+  }
+
+  /* Mobile user name */
+  .nav-links li.user-name {
+    width: 90%;
+    text-align: center;
+    padding: 0.9rem 0;
+    margin: 0.5rem auto;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(16, 185, 129, 0.1));
+  }
+
+  /* Mobile logout button */
+  .nav-links li .logout-btn {
+    width: 80%;
+    margin: 0.5rem auto;
+    display: block;
+    text-align: center;
+    padding: 0.8rem;
+  }
+
+  /* Mobile login/signup buttons */
+  .nav-links li:last-child a,
+  .nav-links li:nth-last-child(2) a {
+    width: 80%;
+    margin: 0.5rem auto;
+  }
+}
+
+/* Desktop hover effect for entire navbar item */
+@media (min-width: 769px) {
+  .nav-links a {
+    position: relative;
+  }
+  
+  /* Smooth transition for red line */
+  .nav-links a::after {
+    transition: all 0.3s ease;
+  }
+}
+
+/* Active state styling */
+.nav-links a:active {
+  transform: scale(0.95);
+}
+
+
+
+
+
+
+
+/* Theme Toggle Button */
+.theme-toggle {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  margin-right: 1rem;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-toggle:hover {
+  transform: rotate(15deg);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 768px) {
+  .theme-toggle {
+    position: absolute;
+    top: 1rem;
+    right: 4rem;
+  }
+}

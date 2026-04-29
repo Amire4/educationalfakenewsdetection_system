@@ -1,0 +1,107 @@
+/* Footer ko screen ke bottom par fixed karne ke liye */
+footer {
+  background: linear-gradient(90deg, #1F4E79, #5B9BD5);
+  color: #fff;
+  text-align: center;
+  padding: 1.2rem 0;
+  font-size: 0.95rem;
+  box-shadow: 0 -6px 12px rgba(31, 78, 121, 0.08);
+
+  position: fixed;   /* Fixed position */
+  bottom: 0;         /* Bottom of viewport */
+  left: 0;           /* Full width */
+  width: 100%;
+  z-index: 1000;     /* Ensure it stays above content */
+}
+footer {
+  background: linear-gradient(90deg, #1F4E79, #5B9BD5);
+  color: #fff;
+  text-align: center;
+  padding: 1.2rem 0;
+  font-size: 0.95rem;
+  box-shadow: 0 -6px 12px rgba(31, 78, 121, 0.08);
+  margin-top: auto; /* Push footer down */
+}
+
+/* Footer links */
+footer a {
+  color: #fff;
+  text-decoration: underline;
+  font-weight: 500;
+  margin-left: 0.3rem;
+}
+
+footer a:hover {
+  color: #00A86B;
+}
+
+/* Optional: adjust paragraph spacing */
+footer p {
+  margin: 0.3rem 0;
+}
+
+
+
+
+
+
+
+footer {
+  background: linear-gradient(90deg, #1F4E79, #5B9BD5);
+  color: #fff;
+  text-align: center;
+  padding: 1.2rem 0;
+  font-size: 0.95rem;
+  box-shadow: 0 -6px 12px rgba(31, 78, 121, 0.08);
+  /* Remove fixed, use flex layout */
+  margin-top: auto;   /* Push footer to bottom */
+}
+
+footer a {
+  color: #fff;
+  text-decoration: underline;
+  font-weight: 500;
+  margin-left: 0.3rem;
+}
+
+footer a:hover {
+  color: #00A86B;
+}
+
+
+
+
+
+
+
+
+
+
+.footer {
+  background: #111827; /* dark professional background */
+  color: #f5f5f5;
+  padding: 0.8rem 1rem; /* compact height */
+  text-align: center;
+  font-size: 0.9rem; /* small font size */
+  position: relative; /* normal flow, sticks to bottom if content short */
+  width: 100%;
+  bottom: 0;
+  box-shadow: 0 -3px 10px rgba(0,0,0,0.1);
+}
+
+.footer a {
+  color: #ef4444; /* red accent for links */
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 0.3rem;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
