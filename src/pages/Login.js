@@ -4,7 +4,8 @@ import Footer from '../components/Footer';
 import { FaFacebookF, FaGoogle, FaLinkedinIn } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { signInWithGoogle, signInWithFacebook, signInWithEmail } from '../services/firebase';
+import { loginAPI } from '../services/api';
+import { signInWithGoogle, signInWithFacebook } from '../services/firebase';
 import '../styles/login.css';
 
 function Login() {
@@ -15,58 +16,48 @@ function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  // Email Login
-  const handleLogin = async (e) => {
+  // ✅ BACKEND EMAIL LOGIN (Pehle jaisa)
+  const handleEmailLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
 
-    const result = await signInWithEmail(email, password);
-    
-    if (result.success) {
-      login(result.user, result.user.uid);
+    try {
+      const response = await loginAPI({ email, password });
+      const { access_token, user } = response.data;
+      login(user, access_token);
       navigate('/');
-    } else {
-      setError(result.error);
-      alert(result.error);
+    } catch (err) {
+      const msg = err.response?.data?.detail || 'Invalid email or password';
+      setError(msg);
+    } finally {
+      setLoading(false);
     }
-    
-    setLoading(false);
   };
 
-  // Google Login
+  // ✅ GOOGLE LOGIN (Firebase)
   const handleGoogleLogin = async () => {
     setLoading(true);
-    setError('');
-    
     const result = await signInWithGoogle();
-    
     if (result.success) {
       login(result.user, result.user.uid);
       navigate('/');
     } else {
       setError(result.error);
-      alert(result.error);
     }
-    
     setLoading(false);
   };
 
-  // Facebook Login
+  // ✅ FACEBOOK LOGIN (Firebase)
   const handleFacebookLogin = async () => {
     setLoading(true);
-    setError('');
-    
     const result = await signInWithFacebook();
-    
     if (result.success) {
       login(result.user, result.user.uid);
       navigate('/');
     } else {
       setError(result.error);
-      alert(result.error);
     }
-    
     setLoading(false);
   };
 
@@ -78,19 +69,22 @@ function Login() {
           <h2>Login</h2>
           <p>Please login to your account</p>
           
-          {error && <div className="error-message" style={{color: 'red', marginBottom: '10px', textAlign: 'center'}}>{error}</div>}
+          {error && (
+            <div style={{ color: 'red', marginBottom: '10px', textAlign: 'center' }}>
+              {error}
+            </div>
+          )}
           
-          <form onSubmit={handleLogin} autoComplete="off">
+          {/* ✅ BACKEND EMAIL LOGIN FORM */}
+          <form onSubmit={handleEmailLogin} autoComplete="off">
             <div className="input-group">
               <span className="input-icon">👤</span>
               <input
                 type="email"
-                name="email"
                 placeholder="Email"
-                required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                autoComplete="off"
+                required
               />
             </div>
             
@@ -98,12 +92,10 @@ function Login() {
               <span className="input-icon">🔒</span>
               <input
                 type="password"
-                name="password"
                 placeholder="Password"
-                required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                autoComplete="off"
+                required
               />
             </div>
             
@@ -112,39 +104,24 @@ function Login() {
             </button>
           </form>
           
-          {/* Social Login Buttons */}
+          {/* ✅ SOCIAL ICONS - SIRF FIREBASE */}
           <div className="social-login">
             <span>or login with</span>
             <div className="social-icons">
-              <button 
-                onClick={handleFacebookLogin} 
-                className="facebook social-btn"
-                disabled={loading}
-              >
+              <button onClick={handleFacebookLogin} className="facebook social-btn">
                 <FaFacebookF />
               </button>
-              
-              <button 
-                onClick={handleGoogleLogin} 
-                className="google social-btn"
-                disabled={loading}
-              >
+              <button onClick={handleGoogleLogin} className="google social-btn">
                 <FaGoogle />
               </button>
-              
-              <a 
-                href="https://www.linkedin.com" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="linkedin social-btn"
-              >
+              <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" className="linkedin social-btn">
                 <FaLinkedinIn />
               </a>
             </div>
           </div>
           
           <div className="signup-link">
-            Don't have an account? <Link to="/auth">Sign up</Link>
+            <Link to="/auth">Don't have an account? Sign up</Link>
           </div>
         </div>
       </div>

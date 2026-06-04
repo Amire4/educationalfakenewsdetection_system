@@ -14,7 +14,8 @@ function Navbar() {
     logout();
     navigate('/login');
   };
-
+console.log('isAuthenticated:', isAuthenticated);
+console.log('user:', user);
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };

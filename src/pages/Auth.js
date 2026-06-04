@@ -1,64 +1,153 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { auth, logout as firebaseLogout } from '../services/firebase';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import '../styles/auth.css';
 
-const AuthContext = createContext();
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within AuthProvider');
-  }
-  return context;
-};
-
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+function Auth() {
+  const [formData, setFormData] = useState({
+    fullname: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { login } = useAuth();  // ✅ Hook component ke top par
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
-      if (firebaseUser) {
-        setUser({
-          name: firebaseUser.displayName || firebaseUser.email.split('@')[0],
-          email: firebaseUser.email,
-          uid: firebaseUser.uid
-        });
-      } else {
-        setUser(null);
-      }
-      setLoading(false);
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
     });
-
-    return () => unsubscribe();
-  }, []);
-
-  const login = (userData, token) => {
-    localStorage.setItem('user', JSON.stringify(userData));
-    localStorage.setItem('token', token);
-    setUser(userData);
   };
 
-  const logout = async () => {
-    await firebaseLogout();
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
-    setUser(null);
-    navigate('/login');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match!");
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setError("Password must be at least 6 characters");
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch('http://localhost:5000/api/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.fullname,
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // ✅ Direct login call - sahi hai
+        login(data.user, data.access_token);
+        navigate('/');
+      } else {
+        setError(data.detail || 'Signup failed');
+      }
+    } catch (err) {
+      setError('Cannot connect to server. Make sure backend is running.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <AuthContext.Provider value={{ 
-      user, 
-      loading, 
-      login, 
-      logout, 
-      isAuthenticated: !!user 
-    }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
+    <div className="signup-wrapper">
+      <div className="signup-left">
+        <div className="overlay">
+          <h1>Create your free account</h1>
+          <p>Join EduVerify and explore trusted educational news across Pakistan.</p>
+        </div>
+      </div>
 
-export default AuthContext;
+      <div className="signup-right">
+        <div className="signup-card">
+          <h2>Sign up</h2>
+          <p>Create your account</p>
+
+          {error && (
+            <div className="error-message" style={{ color: 'red', marginBottom: '10px', textAlign: 'center' }}>
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit}>
+            <div className="input-group">
+              <span className="input-icon">👤</span>
+              <input
+                type="text"
+                name="fullname"
+                placeholder="Full name"
+                value={formData.fullname}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="input-group">
+              <span className="input-icon">📧</span>
+              <input
+                type="email"
+                name="email"
+                placeholder="Email address"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="input-group">
+              <span className="input-icon">🔒</span>
+              <input
+                type="password"
+                name="password"
+                placeholder="Password (min 6 chars)"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="input-group">
+              <span className="input-icon">🔒</span>
+              <input
+                type="password"
+                name="confirmPassword"
+                placeholder="Confirm password"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <button className="signup-btn" type="submit" disabled={loading}>
+              {loading ? 'Creating...' : 'Sign up'}
+            </button>
+          </form>
+
+          <div className="signup-links">
+            Already have an account? <Link to="/login">Login</Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Auth;
